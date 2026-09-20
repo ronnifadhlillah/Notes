@@ -1,10 +1,11 @@
-# Lambda's example
+# LAMBDA'S EXAMPLE
 
 import math
 import pandas as pd
 
-# Ternary operator. using if else with lambda
-# using modulus to detect even or odd on number
+# TERNARY OPERATOR
+# Using if else with lambda
+# Using modulus to detect even or odd on number
 oddEven=lambda x:"Even" if x % 2==0 else "Odd"
 print(oddEven(4))
 
@@ -25,6 +26,9 @@ nl = [-5, 12, 0, 8, -3, 20]
 processNl = list(map(lambda x: 0 if x < 0 else (x // 2 if x % 2 == 0 else x * 3),nl))
 print(processNl) # Result [0, 6, 0, 4, 0, 10]
 
+# ======================================================================================================================
+
+# LAMBDA IN REALWORLD
 # There are various status of output within a process.
 # In this case, we're want to adjust status classification become released and reject using lambda function
 arr=[
