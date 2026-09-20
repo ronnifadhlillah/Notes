@@ -63,3 +63,12 @@ print(arrDf.head(12))
 # 8    9  productB   768  Kgs    Rework     Rejected
 # 9   10  productB  1233  Kgs    Bypass     Released
 # 10  11  productA  1453  Kgs  Released     Released
+
+# Calculating output quantity by statusChange column
+arrDf["qty"]=arrDf["qty"].astype(float)
+totalSum=arrDf.groupby(lambda x:"Released" if arrDf.loc[x,"id"] in getRelease else ("Rejected" if arrDf.loc[x,"id"] in getReject else "Others"))["qty"].sum()
+print(totalSum)
+# Result : 
+# Rejected    3824.0
+# Released    7815.0
+
