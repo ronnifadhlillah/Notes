@@ -1,6 +1,7 @@
 # Lambda's example
 
 import math
+import pandas as pd
 
 # Ternary operator. using if else with lambda
 # using modulus to detect even or odd on number
@@ -23,3 +24,42 @@ print(number(-2)) # result 1.4142135....
 nl = [-5, 12, 0, 8, -3, 20]
 processNl = list(map(lambda x: 0 if x < 0 else (x // 2 if x % 2 == 0 else x * 3),nl))
 print(processNl) # Result [0, 6, 0, 4, 0, 10]
+
+# There are various status of output within a process.
+# In this case, we're want to adjust status classification become released and reject using lambda function
+arr=[
+  {"id":"1","name":"productA","qty":"1500","uom":"Kgs","status":"Released"},
+  {"id":"2","name":"productB","qty":"800","uom":"Kgs","status":"Rejected"},
+  {"id":"3","name":"productD","qty":"144","uom":"Kgs","status":"Rework"},
+  {"id":"4","name":"productC","qty":"1766","uom":"Kgs","status":"Hold"},
+  {"id":"5","name":"productE","qty":"1653","uom":"Kgs","status":"Bypass"},
+  {"id":"6","name":"productC","qty":"989","uom":"Kgs","status":"Released"},
+  {"id":"7","name":"productA","qty":"987","uom":"Kgs","status":"Released"},
+  {"id":"8","name":"productD","qty":"346","uom":"Kgs","status":"Rework"},
+  {"id":"9","name":"productB","qty":"768","uom":"Kgs","status":"Rework"},
+  {"id":"10","name":"productB","qty":"1233","uom":"Kgs","status":"Bypass"},
+  {"id":"11","name":"productA","qty":"1453","uom":"Kgs","status":"Released"}
+]
+
+# Set Released and bypass status become "Released"
+# Set Reject, Hold, Rework status become "Rejected"
+
+arrDf=pd.DataFrame(arr)
+getRelease=arrDf[arrDf["status"].isin(["Released","Bypass"])]["id"].unique()
+getReject=arrDf[arrDf["status"].isin(["Hold","Rejected","Rework"])]["id"].unique()
+# Separating between release and reject status after classification
+arrDf["statusChange"]=arrDf.apply(lambda x:"Released" if x["id"] in getRelease else ("Rejected" if x["id"] in getReject else x["id"]),axis=1)
+print(arrDf.head(12))
+# Result should be
+#     id      name   qty  uom    status statusChange
+# 0    1  productA  1500  Kgs  Released     Released
+# 1    2  productB   800  Kgs  Rejected     Rejected
+# 2    3  productD   144  Kgs    Rework     Rejected
+# 3    4  productC  1766  Kgs      Hold     Rejected
+# 4    5  productE  1653  Kgs    Bypass     Released
+# 5    6  productC   989  Kgs  Released     Released
+# 6    7  productA   987  Kgs  Released     Released
+# 7    8  productD   346  Kgs    Rework     Rejected
+# 8    9  productB   768  Kgs    Rework     Rejected
+# 9   10  productB  1233  Kgs    Bypass     Released
+# 10  11  productA  1453  Kgs  Released     Released
