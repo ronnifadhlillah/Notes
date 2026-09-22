@@ -90,5 +90,18 @@ print(totalSum)
 # Rejected    3824.0
 # Released    7815.0
 
+# USING LAMBDA IN DICTIONARY
+# Dictionary contain simple math calc
+opr = {
+    'plus': lambda a, b: a + b,
+    'minus': lambda a, b: a - b,
+    'multiply': lambda a, b: a * b,
+    'divide': lambda a, b: a / b if b != 0 else "Error: divide by zero"
+}
+
+print(opr["plus"](2,3)) # Result 5
+print(opr["divide"](2,2)) # Result 1
+
+
 
 
