@@ -31,7 +31,7 @@ print(processNlMap1) # Result [0, 6, 0, 4, 0, 10]
 processNlMap2=list(map(lambda x: x**2,nl))
 print(processNlMap2) # Result [25, 144, 0, 64, 9, 400]
 
-# Get odd number
+# Get even number from list
 processNlFilter=list(filter(lambda x:x % 2==0, nl))
 print(processNlFilter) # Result [12, 0, 8, 20]
 
