@@ -39,6 +39,29 @@ print(processNlFilter) # Result [12, 0, 8, 20]
 processNlReduce=reduce(lambda x,y: x+y,nl)
 print(processNlReduce) # Result 32
 
+# Filtering value
+value = [60, 80, 90, 50, 75]
+result = list(filter(lambda x: x >= 75, value))
+print(result)  # Result [80, 90, 75]
+
+# Multi criteria sort
+arr2 = [
+    {"name": "Budi", "age": 20, "value": 85},
+    {"name": "Ani", "age": 19, "value": 90},
+    {"name": "Citra", "age": 20, "value": 95},
+    {"name": "Dedi", "age": 19, "value": 80}
+]
+
+# sorted by age ascending, then value descending (big to small -> use minus '-')
+sorting = sorted(arr2, key=lambda x: (x["age"], -x["value"]))
+
+for s in sorting:
+    print(s)
+# Output:
+# {'name': 'Ani', 'age': 19, 'value': 90}
+# {'name': 'Dedi', 'age': 19, 'value": 80}
+# {'name': 'Citra', 'age': 20, 'value': 95}  -> value 95 di atas Budi karena lebih besar
+# {'name': 'Budi', 'age': 20, 'value': 85}
 
 # ======================================================================================================================
 
