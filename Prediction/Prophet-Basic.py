@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from prophet import Prophet
+from prophet.plot import plot_plotly,plot_components_plotly
 
 df = pd.read_csv('https://raw.githubusercontent.com/facebook/prophet/main/examples/example_wp_log_peyton_manning.csv')
 # print(df.isnull().sum())
@@ -38,8 +39,8 @@ plt.xlim(forecast['ds'].min(), forecast['ds'].max())
 plt.legend(loc='upper left')
 plt.show()
 
-# GAP counting
+# Calculating the difference between the upper trend and the lower trend. to prove thats why gray area are visible.
 forecast['trendGap'] = forecast['trend_upper'] - forecast['trend_lower']
-# first data (head) VS end data (tail)
+# First data (head) VS end data (tail)
 print("GAP on start periode (2008):", forecast['trendGap'].head(1).values[0])
 print("GAP on last periode (prediction) (2017):", forecast['trendGap'].tail(1).values[0])
