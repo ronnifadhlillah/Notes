@@ -1,6 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score,mean_absolute_error
 import numpy as np
 import pandas as pd
 
@@ -14,8 +14,8 @@ df = pd.DataFrame(data)
 
 
 # Separating feature (X) and target (y)
-X = df[['humPercent', 'windSpeedKmh']]
-y = df['tempC']
+X = df[['humPercent', 'windSpeedKmh']].values
+y = df['tempC'].values
 
 # Splitting data into training Data and Test Data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -35,3 +35,11 @@ print(f"Mean Squared Error: {mse:.2f}")
 newData = np.array([[90, 17]])
 tempPredicition = model.predict(newData)
 print(f"New temp prediction: {tempPredicition[0]:.2f} °C")
+
+
+# Assess the accuracy
+r2 = r2_score(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+
+print(f"R-squared Score: {r2:.2f}")
+print(f"Mean Absolute Error (MAE): {mae:.2f} °C")
