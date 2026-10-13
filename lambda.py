@@ -125,6 +125,22 @@ opr = {
 print(opr["plus"](2,3)) # Result 5
 print(opr["divide"](2,2)) # Result 1
 
+# Un-usual date format
+monthMap=lambda monthNo:{
+    'Jan':'01',
+    'Feb':'02',
+    'Mar':'03',
+    'Apr':'04',
+    'May':'05',
+    'Jun':'06',
+    'Jul':'07',
+    'Aug':'08',
+    'Sep':'09',
+    'Oct':'10',
+    'Nov':'11',
+    'Dec':'12',
+}.get(monthNo)
 
-
-
+dateFormat="Oct, 12, 2026"
+splitD=dateFormat.split(", ")
+getMonth=monthMap(splitD[0])
