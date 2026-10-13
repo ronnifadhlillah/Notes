@@ -2,6 +2,7 @@
 from functools import reduce
 import math
 import pandas as pd
+from datetime import datetime
 
 # TERNARY OPERATOR
 # Using if else with lambda
@@ -144,3 +145,5 @@ monthMap=lambda monthNo:{
 dateFormat="Oct, 12, 2026"
 splitD=dateFormat.split(", ")
 getMonth=monthMap(splitD[0])
+dString=str(splitD[1]+"/"+getMonth+"/"+splitD[2])
+dObj=datetime.strptime(dString,"%d/%m/%Y") # Convert to dateObject
