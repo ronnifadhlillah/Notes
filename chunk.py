@@ -1,6 +1,8 @@
 import pandas as pd
 import time
 import memory_profiler import memory_usage
+from concurrent.futures import ProcessPoolExecutor
+
 
 # Process a large CSV file in segments of 50,000 rows
 chunk_size = 50000
@@ -44,4 +46,41 @@ if __name__=="__main__":
 # ==================================================================
   # Comparation in percent
   compare=(max(memComps2)/max(memComps1))*100
-  
+
+# ==================================================================
+
+# Calculating the total and average of a continous column
+tSum = 0
+tCount = 0
+
+for chunk in pd.read_csv('../dataset/btcusd_1-min_data.csv', chunksize=50000):
+  tSum += chunk['open'].sum() # Optimation: Only select the necessary columns to save RAM
+  tCount += chunk['open'].count()
+
+globalAvg = total_sum / total_count
+print(f"Average: {globalAvg}")
+
+# ==================================================================
+
+# Parallel Processing Using multiprocessing
+def processChunk(chunk):
+    # Perform heavy computation on the chunk here
+    filtered = chunk[chunk['status'] == 'ACTIVE']
+    return filtered.groupby('category')['amount'].sum().to_dict()
+
+# Gathering the results from several processes
+results = []
+chunkSize = 100_000
+
+with ProcessPoolExecutor(max_workers=4) as executor:
+    futures = []
+    for chunk in pd.read_csv('../dataset/btcusd_1-min_data.csv', chunksize=chunk_size):
+        # Send each chunk to a separate worker
+        futures.append(executor.submit(process_chunk, chunk))
+    
+    for future in futures:
+        results.append(future.result())
+
+# Combine the final results from all processes
+final_df = pd.DataFrame(results).groupby(level=0).sum()
+print(final_df)
