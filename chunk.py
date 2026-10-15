@@ -84,3 +84,22 @@ with ProcessPoolExecutor(max_workers=4) as executor:
 # Combine the final results from all processes
 final_df = pd.DataFrame(results).groupby(level=0).sum()
 print(final_df)
+
+# ==================================================================
+
+# Streaming results back to a file
+outputFile = 'hasil_filter.csv'
+firstChunk = True
+
+for chunk in pd.read_csv('source.csv', chunksize=100_000):
+    # Data transformation
+    processedChunk = chunk[chunk['score'] > 80]
+    if processedChunk.empty:
+        continue
+        
+    # Write to CSV in append
+    if first_chunk:
+        processedChunk.to_csv(output_file, index=False, mode='w')
+        first_chunk = False
+    else:
+        processedChunk.to_csv(output_file, index=False, mode='a', header=False)
