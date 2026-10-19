@@ -11,7 +11,6 @@ pivot=pd.pivot_table(
     aggfunc="sum",
     fill_value=0,
 )
-print(pivot)
 
 # Multi index pivot and multi aggregate
 df["Month"]=(pd.to_datetime(df["Order_Date"])).dt.month
@@ -23,7 +22,6 @@ pivot=pd.pivot_table(
     aggfunc=["sum","mean"],
     fill_value=0
 )
-print(pivot)
 
 # Custom aggregate,multi index, multi values
 pivot=pd.pivot_table(
@@ -37,5 +35,11 @@ pivot=pd.pivot_table(
     },
     fill_value=0
 )
-pdA=pivot.reset_index()
-print(pdA)
+
+# Using crosstab. Calculating the frequency of occurrence (such as in a statistical contingency table)
+freq=pd.crosstab(
+    index=[df["Country"],df["Month"]],
+    columns=df["Product_Name"],
+    margins=True,
+    normalize="index" # Set to %
+)
