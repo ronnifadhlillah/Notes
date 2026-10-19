@@ -23,5 +23,19 @@ pivot=pd.pivot_table(
     aggfunc=["sum","mean"],
     fill_value=0
 )
-
 print(pivot)
+
+# Custom aggregate,multi index, multi values
+pivot=pd.pivot_table(
+    data=df,
+    index=["Product_Category","Month"],
+    columns="Sales_Channel",
+    values=["Cost","Profit"],
+    aggfunc={
+        "Cost":["sum"],
+        "Profit":["mean"]
+    },
+    fill_value=0
+)
+pdA=pivot.reset_index()
+print(pdA)
